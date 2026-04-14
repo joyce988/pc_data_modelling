@@ -99,8 +99,62 @@ SELECT  [Payment_Method]
       ,[PC_Market_Price]
   FROM [pc_data_raw].[dbo].[fact_table]
 
+  --droping table to add primary key(dim_location.
+  DROP TABLE dim_location
+  create table dim_location
+ ( [locationID] INT IDENTITY(1,1) PRIMARY KEY,
+  [continent][nvarchar](50) NOT NULL,
+  [country_or_state][nvarchar](50) NOT NULL,
+  [province_or_city] [nvarchar](100) NOT NULL)
+
+  --INSERTING INFORMATION INTO DIM_LOCATION TABLE.
+
+  INSERT INTO [pc_data_raw].[dbo].[dim_location](continent,country_or_state,province_or_city)
+  SELECT DISTINCT continent,country_or_state,province_or_city
+   FROM [pc_data_raw].[dbo].[pc_data_raw]
+  
+  SELECT* FROM
+[pc_data_raw].[dbo].[dim_location]
+
+--droping dim_customer and create it again, load data.
+
+  DROP TABLE dim_customer
+CREATE TABLE dim_customer 
+([customerID] INT IDENTITY(1,1) PRIMARY KEY,
+ [Customer_Name][nvarchar](50) NOT NULL,
+      [Customer_Surname][nvarchar](50) NOT NULL,
+      [Customer_Contact_Number][nvarchar](50) NOT NULL,
+      [Customer_Email_Address][nvarchar](50) NOT NULL)
+
+INSERT INTO [pc_data_raw].[dbo].[dim_customer](Customer_Name,Customer_Surname,Customer_Contact_Number,Customer_Email_Address)
+SELECT DISTINCT Customer_Name,Customer_Surname,Customer_Contact_Number,Customer_Email_Address
+ FROM [pc_data_raw].[dbo].[pc_data_raw]
+
+ SELECT *
+FROM [pc_data_raw].[dbo].[dim_customer]
+
+--DIM-PAYMENT
+DROP TABLE dim_payment
+
+CREATE TABLE dim_payment
+([paymentID] INT IDENTITY(1,1) PRIMARY KEY,
+[Payment_Method][nvarchar](50) NOT NULL)
+
+INSERT INTO [pc_data_raw].[dbo].[dim_payment](payment_method)
+SELECT DISTINCT payment_method
+  FROM [pc_data_raw].[dbo].[dim_payment]
 
 
+--DIM_SALE TABLE
+DROP TABLE dim_sale
+
+CREATE TABLE dim_sale
+([saleID] INT IDENTITY(1,1) PRIMARY KEY,
+  [Sales_Person_Name][nvarchar](50) NOT NULL,
+      [Sales_Person_Department][nvarchar](50) NOT NULL)
+INSERT INTO [pc_data_raw].[dbo].[dim_sale](Sales_Person_Name,Sales_Person_Department)
+SELECT DISTINCT Sales_Person_Name,Sales_Person_Department 
+FROM  [pc_data_raw].[dbo].[dim_sale]
 
 
 
