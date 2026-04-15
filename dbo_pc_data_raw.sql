@@ -142,8 +142,10 @@ CREATE TABLE dim_payment
 
 INSERT INTO [pc_data_raw].[dbo].[dim_payment](payment_method)
 SELECT DISTINCT payment_method
-  FROM [pc_data_raw].[dbo].[dim_payment]
+  FROM [pc_data_raw].[dbo].[pc_data_raw]
 
+  SELECT*
+  FROM [pc_data_raw].[dbo].[dim_payment]
 
 --DIM_SALE TABLE
 DROP TABLE dim_sale
@@ -154,7 +156,39 @@ CREATE TABLE dim_sale
       [Sales_Person_Department][nvarchar](50) NOT NULL)
 INSERT INTO [pc_data_raw].[dbo].[dim_sale](Sales_Person_Name,Sales_Person_Department)
 SELECT DISTINCT Sales_Person_Name,Sales_Person_Department 
-FROM  [pc_data_raw].[dbo].[dim_sale]
+FROM  [pc_data_raw].[dbo].[pc_data_raw]
 
+SELECT*
+FROM [pc_data_raw].[dbo].[dim_sale]
 
+--dim_storage
+DROP TABLE dim_storage
+CREATE TABLE dim_storage
+([storageID] INT IDENTITY(1,1) PRIMARY KEY,
+ [Storage_Type][nvarchar](50) NOT NULL,
+      [RAM][nvarchar](50) NOT NULL,
+      [Storage_Capacity][nvarchar](50))
 
+INSERT INTO  [pc_data_raw].[dbo].[dim_storage](storage_type,RAM, storage_capacity)
+SELECT DISTINCT storage_type,RAM,storage_capacity
+FROM [pc_data_raw].[dbo].[pc_data_raw]
+SELECT*
+FROM [pc_data_raw].[dbo].[dim_storage]
+
+--FACT TABLE
+DROP TABLE fact_table
+CREATE TABLE fact_table
+([orderID] INT IDENTITY(1,1) PRIMARY KEY,
+ [Cost_Price][nvarchar](50) NOT NULL,
+      [Sale_Price][nvarchar](50) NOT NULL,
+      [Discount_Amount][nvarchar](50) NOT NULL,
+      [Finance_Amount][nvarchar](50) NOT NULL,
+      [Cost_of_Repairs][nvarchar](50) NOT NULL,
+      [PC_Market_Price][nvarchar](50) NOT NULL)
+
+INSERT INTO  [pc_data_raw].[dbo].[fact_table](cost_price,sale_price,discount_amount,finance_amount,cost_of_repairs,pc_market_price)
+SELECT DISTINCT cost_price,sale_price,discount_amount,finance_amount,cost_of_repairs,pc_market_price
+FROM [pc_data_raw].[dbo].[pc_data_raw]
+
+SELECT*
+FROM [pc_data_raw].[dbo].[fact_table]
