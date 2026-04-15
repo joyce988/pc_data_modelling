@@ -1,4 +1,4 @@
-SELECT TOP (1000) [Continent]
+SELECT [Continent]
       ,[Country_or_State]
       ,[Province_or_City]
       ,[Shop_Name]
@@ -172,6 +172,7 @@ CREATE TABLE dim_storage
 INSERT INTO  [pc_data_raw].[dbo].[dim_storage](storage_type,RAM, storage_capacity)
 SELECT DISTINCT storage_type,RAM,storage_capacity
 FROM [pc_data_raw].[dbo].[pc_data_raw]
+
 SELECT*
 FROM [pc_data_raw].[dbo].[dim_storage]
 
@@ -192,3 +193,44 @@ FROM [pc_data_raw].[dbo].[pc_data_raw]
 
 SELECT*
 FROM [pc_data_raw].[dbo].[fact_table]
+
+--inserting orderID into fact table.
+
+DROP TABLE fact_table
+CREATE TABLE fact_table
+([orderID] INT IDENTITY(1,1) PRIMARY KEY,
+[locationID] INT,
+[customerID] INT,
+[paymentID] INT,
+[saleID] INT,
+[storageID] INT,
+ [Cost_Price][nvarchar](50) NOT NULL,
+      [Sale_Price][nvarchar](50) NOT NULL,
+      [Discount_Amount][nvarchar](50) NOT NULL,
+      [Finance_Amount][nvarchar](50) NOT NULL,
+      [Cost_of_Repairs][nvarchar](50) NOT NULL,
+      [PC_Market_Price][nvarchar](50) NOT NULL
+ CONSTRAINT fk_locationID
+           foreign key(locationID)
+    references [pc_data_raw].[dbo].[dim_location](locationID),
+
+CONSTRAINT fk_customerID
+foreign key(customerID)
+references [pc_data_raw].[dbo].[dim_customer](customerID),
+
+
+CONSTRAINT fk_paymentID
+foreign key(paymentID)
+references [pc_data_raw].[dbo].[dim_payment](paymentID),
+
+CONSTRAINT fk_saleID
+foreign key(saleID)
+references [pc_data_raw].[dbo].[dim_sale](saleID),
+
+CONSTRAINT fk_storageID
+foreign key(storageID)
+references [pc_data_raw].[dbo].[dim_storage](storageID),)
+
+select*
+from  [pc_data_raw].[dbo].[fact_table]
+
