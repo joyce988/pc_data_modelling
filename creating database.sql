@@ -1,0 +1,2 @@
+create database pc_data_raw
+create database pc_data_dwh
