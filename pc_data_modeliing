@@ -1,0 +1,266 @@
+# PC Sales Data Warehouse ETL Project
+
+## Overview
+
+This project demonstrates the design and implementation of a complete **SQL Server Data Warehouse** for a PC Sales business. The solution follows a traditional ETL (Extract, Transform, Load) architecture using **SQL Server Management Studio (SSMS)** and **SQL Server Integration Services (SSIS)**.
+
+The project extracts raw sales data from flat files, transforms and cleans the data, loads it into staging tables, populates dimension tables, and finally loads a fact table for reporting and business intelligence.
+
+---
+
+## Project Objectives
+
+* Build a complete ETL pipeline using SSIS.
+* Design a dimensional data warehouse using a Star Schema.
+* Clean and transform raw sales data.
+* Load dimension tables before loading the fact table.
+* Implement stored procedures for automated loading.
+* Prepare data for reporting and analytics.
+
+---
+
+## Technologies Used
+
+* SQL Server 2022
+* SQL Server Management Studio (SSMS)
+* SQL Server Integration Services (SSIS)
+* Visual Studio
+* T-SQL
+* Git
+* GitHub
+
+---
+
+## Project Structure
+
+```text
+PC-Sales-Data-Warehouse/
+│
+├── README.md
+├── SQL Scripts/
+│   ├── Create_Database.sql
+│   ├── Create_Staging_Tables.sql
+│   ├── Create_Dimension_Tables.sql
+│   ├── Create_Fact_Table.sql
+│   ├── Stored_Procedures.sql
+│   └── Load_Data.sql
+│
+├── SSIS Packages/
+│   ├── Load_Staging.dtsx
+│   ├── Load_Dimensions.dtsx
+│   └── Load_Fact_Table.dtsx
+│
+├── Data/
+│   └── PC_Sales.csv
+│
+└── Images/
+    ├── Architecture.png
+    ├── StarSchema.png
+    └── SSISPackage.png
+```
+
+---
+
+## Data Warehouse Architecture
+
+```text
+Flat File (CSV)
+        │
+        ▼
+Raw Data
+        │
+        ▼
+Staging Tables
+        │
+        ▼
+Dimension Tables
+        │
+        ▼
+Fact Table
+        │
+        ▼
+Reporting & Analytics
+```
+
+---
+
+## Database Layers
+
+### Raw Layer
+
+Stores imported data exactly as received from the source file.
+
+Example:
+
+* pc_data_raw
+
+---
+
+### Staging Layer
+
+Performs data cleansing and standardization before loading into the warehouse.
+
+Example tables:
+
+* stg_dim_customer
+* stg_dim_location
+* stg_dim_payment
+* stg_dim_sale
+* stg_dim_storage
+* stg_dim_channel
+* stg_dim_priority
+* stg_dim_pc
+* stg_dim_shop
+* stg_dim_date
+
+---
+
+### Data Warehouse Layer
+
+Dimension Tables
+
+* dim_customer
+* dim_location
+* dim_payment
+* dim_sale
+* dim_storage
+* dim_channel
+* dim_priority
+* dim_pc
+* dim_shop
+* dim_date
+
+Fact Table
+
+* fact_sales
+
+---
+
+## ETL Process
+
+### Extract
+
+* Import PC sales CSV file.
+* Load into the Raw database.
+
+### Transform
+
+* Remove duplicates.
+* Handle NULL values.
+* Convert data types.
+* Standardize text values.
+* Validate dates.
+* Clean numeric columns.
+
+### Load
+
+1. Load staging tables.
+2. Populate dimension tables.
+3. Populate the fact table using foreign keys.
+4. Execute stored procedures for automated loading.
+
+---
+
+## Star Schema
+
+```text
+                 dim_customer
+                      │
+                      │
+dim_location ─── fact_sales ─── dim_payment
+                      │
+          ┌───────────┼────────────┐
+          │           │            │
+      dim_sale   dim_storage   dim_channel
+          │           │            │
+          └─────── dim_pc ─────────┘
+                      │
+                 dim_priority
+                      │
+                 dim_shop
+                      │
+                 dim_date
+```
+
+---
+
+## Key Features
+
+* Star Schema design
+* SQL Server Data Warehouse
+* SSIS ETL pipeline
+* Stored Procedures
+* Data validation
+* Data cleansing
+* Surrogate keys
+* Foreign key relationships
+* Incremental loading support
+* SQL scripting
+
+---
+
+## Example ETL Workflow
+
+1. Import CSV file.
+2. Load raw table.
+3. Clean data in staging tables.
+4. Populate dimensions.
+5. Populate fact table.
+6. Validate row counts.
+7. Run reporting queries.
+
+---
+
+## Future Improvements
+
+* Incremental ETL using Change Data Capture (CDC)
+* SQL Server Agent job scheduling
+* Power BI dashboards
+* Error logging framework
+* Audit tables
+* Slowly Changing Dimensions (SCD Type 2)
+* Automated data quality checks
+
+---
+
+
+2. Open SQL Server Management Studio.
+
+3. Execute the SQL scripts in this order:
+
+* Create Database
+* Create Staging Tables
+* Create Dimension Tables
+* Create Fact Table
+* Create Stored Procedures
+
+4. Open the SSIS solution in Visual Studio.
+
+5. Update the database connection managers.
+
+6. Execute the ETL packages.
+
+---
+
+## Sample Business Questions
+
+The data warehouse can answer questions such as:
+
+* Which PC models generate the highest revenue?
+* Which sales employees achieve the highest sales?
+* Which payment methods are most frequently used?
+* Which sales channels perform best?
+* What are monthly and yearly sales trends?
+* Which regions generate the highest revenue?
+* Which storage configurations are most popular?
+
+---
+
+## Author
+
+**Joyce Nonhlanhla Sibisi**
+
+SQL Server | ETL Developer | Data Warehouse | SSIS | SQL
+
+---
+
